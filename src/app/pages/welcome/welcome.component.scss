@@ -25,8 +25,17 @@ nz-select {
     position: absolute;
     margin-left: 70px;
     padding-left: 10px;
-    background-color: black;
-    color: white;
+    background-color: white;
+    border: 1px solid red;
+}
+
+.createService {
+    // height: 20px;
+    top: 150px;
+    right: 20px;
+    z-index: 99;
+    position: absolute;
+    border: 1px solid red;
 }
 
 nz-checkbox-group {
@@ -35,10 +44,9 @@ nz-checkbox-group {
     // align-items: center;
 }
 
-::ng-deep .ant-checkbox-wrapper {
-    color: white;
-}
-
-::ng-deep .ant-checkbox-disabled+span {
-    color: rgb(179, 212, 243);
-}
+// ::ng-deep .ant-checkbox-wrapper {
+//     color: white;
+// }
+// ::ng-deep .ant-checkbox-disabled+span {
+//     color: rgb(179, 212, 243);
+// }

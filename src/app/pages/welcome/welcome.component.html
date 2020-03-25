@@ -15,3 +15,11 @@
     <span>服务列表</span>
     <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="log(checkOptionsOne)"></nz-checkbox-group>
 </div>
+<div class="createService">
+    <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
+        <input type="text" nz-input placeholder="输入服务名称" [(ngModel)]="nameToCreate" />
+    </nz-input-group>
+    <ng-template #suffixButton>
+        <button nz-button nzType="primary" nzSize="large" nzSearch (click)="createService()">Create</button>
+    </ng-template>
+</div>

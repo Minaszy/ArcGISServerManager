@@ -17,6 +17,7 @@ export class WelcomeComponent implements OnInit {
   addLayer: any;
   checked: false;
   checkOptionsOne: any = [];
+  nameToCreate: any;
   constructor(
     private arcserver: ArcserverService
   ) { }
@@ -230,5 +231,9 @@ export class WelcomeComponent implements OnInit {
       }
 
     });
+  }
+  createService() {
+    console.log(this.nameToCreate);
+    this.arcserver.createService(this.nameToCreate);
   }
 }
