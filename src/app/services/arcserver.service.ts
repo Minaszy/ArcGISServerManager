@@ -49,11 +49,11 @@ export class ArcserverService {
     });
   }
 
-  createService() {
+  createService(name) {
     const url = 'http://minas/server/admin/services/createService?';
     const params = {
       service: {
-        serviceName: 'featurelayertest1',
+        serviceName: name,
         type: 'MapServer',
         description: 'my map service',
         capabilities: 'Map,Query,Data',
@@ -98,10 +98,20 @@ export class ArcserverService {
       f: 'json',
       token: this.token
     };
+    return this.http.post(url, params).toPromise().then((res: Response) => {
+      return res;
+    }).catch(err => {
+      return err;
+    });
   }
 
   stopService(servcieName) {
     const url = `https://minas/server/admin/services/${servcieName}.MapServer/stop`;
     const params = {};
+    return this.http.post(url, params).toPromise().then((res: Response) => {
+      return res;
+    }).catch(err => {
+      return err;
+    });
   }
 }
