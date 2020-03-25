@@ -1,0 +1,7 @@
+{
+    "/api": {
+        "target": "http://minas/server/",
+        "secure": false,
+        "pathRewrite": { "^/api": "" }
+    }
+}

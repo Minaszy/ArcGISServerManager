@@ -1,0 +1,17 @@
+<div #mapOrthophoto class="map"></div>
+<div class="select">
+    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a service" [(ngModel)]="selectedValue" (ngModelChange)="select($event)">
+        <nz-option *ngFor="let item of services" nzLabel={{item.serviceName}} nzValue={{item.serviceName}}></nz-option>
+    </nz-select>
+</div>
+<div class="list">
+    <!-- <nz-list [nzDataSource]="services" nzBordered [nzHeader]="'服务列表'" [nzRenderItem]="defaultItem">
+        <ng-template #defaultItem let-item>
+            <nz-list-item>
+                <label nz-checkbox [(ngModel)]="checked" (ngModelChange)="check($event)"></label> {{item.serviceName}}
+            </nz-list-item>
+        </ng-template>
+    </nz-list> -->
+    <span>服务列表</span>
+    <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="log(checkOptionsOne)"></nz-checkbox-group>
+</div>

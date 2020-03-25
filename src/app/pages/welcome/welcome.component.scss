@@ -1,0 +1,44 @@
+.map {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    // border: 1px solid rgb(225, 95, 65);
+}
+
+.select {
+    width: 200px;
+    top: 102px;
+    z-index: 99;
+    position: absolute;
+    margin-left: 70px;
+}
+
+nz-select {
+    width: 200px;
+}
+
+.list {
+    width: 200px;
+    top: 150px;
+    z-index: 99;
+    position: absolute;
+    margin-left: 70px;
+    padding-left: 10px;
+    background-color: black;
+    color: white;
+}
+
+nz-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+}
+
+::ng-deep .ant-checkbox-wrapper {
+    color: white;
+}
+
+::ng-deep .ant-checkbox-disabled+span {
+    color: rgb(179, 212, 243);
+}
