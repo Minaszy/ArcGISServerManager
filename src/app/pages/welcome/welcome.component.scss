@@ -6,32 +6,22 @@
     // border: 1px solid rgb(225, 95, 65);
 }
 
-.select {
-    width: 200px;
-    top: 102px;
-    z-index: 99;
-    position: absolute;
-    margin-left: 70px;
-}
-
 nz-select {
     width: 200px;
 }
 
 .list {
-    width: 200px;
-    top: 150px;
+    top: 102px;
     z-index: 99;
     position: absolute;
     margin-left: 70px;
     padding-left: 10px;
     background-color: white;
-    border: 1px solid red;
 }
 
 .createService {
     // height: 20px;
-    top: 150px;
+    top: 102px;
     right: 20px;
     z-index: 99;
     position: absolute;

@@ -1,19 +1,15 @@
 <div #mapOrthophoto class="map"></div>
-<div class="select">
-    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a service" [(ngModel)]="selectedValue" (ngModelChange)="select($event)">
-        <nz-option *ngFor="let item of services" nzLabel={{item.serviceName}} nzValue={{item.serviceName}}></nz-option>
-    </nz-select>
-</div>
 <div class="list">
-    <!-- <nz-list [nzDataSource]="services" nzBordered [nzHeader]="'服务列表'" [nzRenderItem]="defaultItem">
-        <ng-template #defaultItem let-item>
-            <nz-list-item>
-                <label nz-checkbox [(ngModel)]="checked" (ngModelChange)="check($event)"></label> {{item.serviceName}}
-            </nz-list-item>
+    <ul nz-list [(nzDataSource)]="services" nzBordered [nzHeader]="'服务列表'" [nzRenderItem]="largeItem">
+        <ng-template #largeItem let-item>
+            <li nz-list-item [nzActions]="[opAction]" [nzContent]="item.serviceName" nzNoFlex>
+                <nz-switch [nzDisabled]="item.disabled" [(ngModel)]="item.checked" (ngModelChange)="select(item)">
+                </nz-switch>
+            </li>
+            <ng-template #opAction><a (click)="start(item)">启动</a>&nbsp;&nbsp;<a (click)="stop(item)">停止</a></ng-template>
         </ng-template>
-    </nz-list> -->
-    <span>服务列表</span>
-    <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="log(checkOptionsOne)"></nz-checkbox-group>
+    </ul>
+
 </div>
 <div class="createService">
     <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
