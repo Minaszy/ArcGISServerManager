@@ -13,10 +13,7 @@ export class WelcomeComponent implements OnInit {
   map: any;
   view: any;
   services: any;
-  servicesInfo: any;
   addLayer: any;
-  checked: false;
-  checkOptionsOne: any = [];
   nameToCreate: any;
   constructor(
     private arcserver: ArcserverService
@@ -107,10 +104,9 @@ export class WelcomeComponent implements OnInit {
           this.arcserver.token = res.token;
           this.arcserver.getServices(res.token).then((result: any) => {
             console.log(result);
-            this.services = result.services;
-            Promise.all(this.services.map(value => this.arcserver.getInfoByServiceName(value.serviceName))).then(list => {
+            Promise.all(result.services.map(value => this.arcserver.getInfoByServiceName(value.serviceName))).then(list => {
               console.log(list);
-              this.getLayerGroup(list);
+              this.getLayerGroup(result.services, list);
             });
           });
           // if (res) {
@@ -148,10 +144,10 @@ export class WelcomeComponent implements OnInit {
         // this.view.ui.remove('attribution');
         // this.view.ui.move(['zoom', 'navigation-toggle', 'compass'], 'bottom-right');
         this.addLayer = (service) => {
-          if (service.layers) {
+          if (service.serviceLayers) {
             const layer = new MapImageLayer({
               id: service.serviceName,
-              url: service.layers[0].url,
+              url: service.serviceLayers[0].url,
               visible: false
             });
             this.map.add(layer);
@@ -163,63 +159,91 @@ export class WelcomeComponent implements OnInit {
         console.error(err);
       });
   }
-  getLayerGroup(list) {
+  getLayerGroup(services, list) {
     const array = [];
-    let data = {};
-    let layer = {};
-    this.services.forEach((item, i) => {
-      if (list[i].error) {
-        // 说明服务没有开启
-        data = {
-          serviceName: item.serviceName,
+    let serviceInfo = {};
+    list.forEach((item, i) => {
+      if (item.error) {
+        serviceInfo = {
+          serviceName: services[i].serviceName,
           details: item,
-          description: '服务未启动'
+          description: '服务未启动',
+          disabled: true,
+          checked: false
         };
-        this.checkOptionsOne.push({
-          label: item.serviceName, value: item.serviceName, disabled: true, checked: false
-        });
       } else {
-        this.checkOptionsOne.push({
-          label: item.serviceName, value: item.serviceName, disabled: false, checked: false
-        });
-        const supportedExtensions = list[i].supportedExtensions.split(', ');
-        console.log(supportedExtensions);
-
+        const supportedExtensions = item.supportedExtensions.split(', ');
         const layers = [];
         layers.push({
           serviceType: 'MapServer',
-          // tslint:disable-next-line:object-literal-shorthand
-          url: `http://minas/server/rest/services/${item.serviceName}/MapServer`
+          url: `http://minas/server/rest/services/${services[i].serviceName}/MapServer`
         });
         supportedExtensions.forEach((element) => {
-          const url = `http://minas/server/rest/services/${item.serviceName}/${element}`;
-          layer = {
+          const url = `http://minas/server/rest/services/${services[i].serviceName}/${element}`;
+          const layer = {
             serviceType: element,
             // tslint:disable-next-line:object-literal-shorthand
             url: url
           };
           layers.push(layer);
         });
-        data = {
-          serviceName: item.serviceName,
-          layers,
-          details: list[i]
+
+        serviceInfo = {
+          serviceName: services[i].serviceName,
+          serviceLayers: layers,
+          details: item,
+          disabled: false,
+          checked: false
         };
       }
-      array.push(data);
+      array.push(serviceInfo);
+      this.addLayer(serviceInfo);
     });
-    // console.log(array);
-    this.servicesInfo = array;
-    this.servicesInfo.forEach(item => {
-      this.addLayer(item);
+    this.services = array;
+    console.log(this.services);
+  }
+  select(item) {
+    const layer = this.map.findLayerById(item.serviceName);
+    // 如果一个服务在初始化时没有被启动，name初始化时就没有获取到该服务的服务类型等信息
+    if (layer) {
+      layer.visible = item.checked;
+    } else {
+      console.log('地图上没有添加该图层');
+      console.log(item);
+      // this.addLayer(item);
+    }
+
+  }
+  start(item) {
+    this.arcserver.startService(item.serviceName).then((res) => {
+      if (res.status === 'success') {
+        // 重启服务后需要重新更新服务的详细信息
+        this.arcserver.getInfoByServiceName(item.serviceName).then((result) => {
+          console.log(result)
+        });
+        // 允许操作页面上已经停掉的服务显隐控件
+        this.services = this.services.map((element) => {
+          if (element.serviceName === item.serviceName) {
+            element.disabled = false;
+          }
+          return element;
+        });
+      }
     });
   }
-  select(e) {
-    this.servicesInfo.forEach(item => {
-      if (item.serviceName === e && item.layers) {
-        this.map.findLayerById(item.serviceName).visible = true;
-      } else if (item.layers) {
-        this.map.findLayerById(item.serviceName).visible = false;
+  stop(item) {
+    this.arcserver.stopService(item.serviceName).then((res) => {
+      if (res.status === 'success') {
+        // 禁止操作页面上已经停掉的服务显隐控件
+        this.services = this.services.map((element) => {
+          if (element.serviceName === item.serviceName) {
+            element.disabled = true;
+            if (element.checked) {
+              element.checked = false;
+            }
+          }
+          return element;
+        });
       }
     });
   }
