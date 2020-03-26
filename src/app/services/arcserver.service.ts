@@ -106,9 +106,36 @@ export class ArcserverService {
   }
 
   stopService(servcieName) {
-    const url = `https://minas/server/admin/services/${servcieName}.MapServer/stop`;
-    const params = {};
-    return this.http.post(url, params).toPromise().then((res: Response) => {
+    // http://minas/server/admin/services/feaTest.MapServer/stop
+    const url = `/api/admin/services/${servcieName}.MapServer/stop?f=json&token=${this.token}`;
+    const params = {
+      f: 'json',
+      token: this.token
+    };
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      })
+    };
+    return this.http.post(url, params, httpOptions).toPromise().then((res: Response) => {
+      return res;
+    }).catch(err => {
+      return err;
+    });
+  }
+
+  startService(servcieName) {
+    const url = `/api/admin/services/${servcieName}.MapServer/start?f=json&token=${this.token}`;
+    const params = {
+      f: 'json',
+      token: this.token
+    };
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      })
+    };
+    return this.http.post(url, params, httpOptions).toPromise().then((res: Response) => {
       return res;
     }).catch(err => {
       return err;

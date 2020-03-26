@@ -2,6 +2,8 @@
     "/api": {
         "target": "http://minas/server/",
         "secure": false,
-        "pathRewrite": { "^/api": "" }
+        "pathRewrite": { "^/api": "" },
+        "changeOrigin": true,
+        "logLevel": "debug"
     }
 }
