@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { loadModules } from 'esri-loader';
-
+// 该模块使用的数据需要发布一个河道面的featureserver
 @Component({
   selector: 'app-water-face',
   templateUrl: './water-face.component.html',

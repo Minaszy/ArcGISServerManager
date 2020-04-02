@@ -1,6 +1,10 @@
 # ArcGISServerManager
 调用arcgis server提供的rest api执行发布、重启、停止服务等操作。
-
+项目环境前提：
+1、搭建arcgis环境，包括arcgis server、webadaptor、desktop，arcgis server需要使用webadaptor进行配置；
+2、还需要对webadaptor的部署环境如IIS进行修改，解决请求参数太长的问题；
+3、上面两部主要是为了允许外部网络能够成功访问server rest api接口；
+4、搭建arcgis sde数据库，用来发布要素服务，用来实现服务编辑功能；
 
 计划添加以下功能：
 1、页面上展示服务器所有服务，包括未启动的；通过开关在地图上展示服务内容；
