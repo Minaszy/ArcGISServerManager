@@ -219,7 +219,7 @@ export class WelcomeComponent implements OnInit {
       if (res.status === 'success') {
         // 重启服务后需要重新更新服务的详细信息
         this.arcserver.getInfoByServiceName(item.serviceName).then((result) => {
-          console.log(result)
+          console.log(result);
         });
         // 允许操作页面上已经停掉的服务显隐控件
         this.services = this.services.map((element) => {
