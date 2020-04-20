@@ -98,6 +98,7 @@ export class WaterFaceComponent implements OnInit {
           console.log(err);
           // alert(JSON.stringify(err));
         });
+        // 该图层是河道面polygon发布的FeatureServer,通过renderer设置渲染水面样式
         const waterLayer = new FeatureLayer({
           url: 'http://minas/server/rest/services/hedaoTest/FeatureServer',
           elevationInfo: {

@@ -1,0 +1,8 @@
+<div #mapWater class="map">
+    <div class="slide">
+        <nz-slider nzVertical [nzMin]="-10" [nzMax]="10" [(ngModel)]="waterH" (ngModelChange)="change($event)"></nz-slider>
+    </div>
+    <div class="play" (click)="start()">
+        播放动画
+    </div>
+</div>
